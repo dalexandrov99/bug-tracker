@@ -41,7 +41,10 @@ pipeline {
                 dir('bugtracker-frontend'){
                     sh '''
                         npm ci
-                        npm test                   
+                        npm test  
+                        mkdir -p reports
+                        mv coverage reports/
+                                         
 
                     '''
                 }
@@ -50,9 +53,9 @@ pipeline {
                 always {
                     junit 'bugtracker-frontend/test-results.xml'
                     publishHTML target: [
-                        reportDir: 'bugtracker-backend/reports',
-                        reportFiles: 'coverage.html',
-                        reportName: 'Backend Coverage Report'
+                        reportDir: 'bugtracker-frontend/reports/coverage'
+                        reportFiles: 'index.html'
+                        reportName: 'Frontend Coverage Report'
                     ]
                 }
             }
